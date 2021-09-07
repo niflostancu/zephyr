@@ -175,7 +175,8 @@ static int process_udp_proto(struct data *data)
 		k_work_reschedule(&data->udp.transmit, UDP_SLEEP);
 		ret = 0;
 	} else {
-		ret = send_udp_data(data);
+		k_work_reschedule(&data->udp.transmit, K_SECONDS(1));
+		/* ret = send_udp_data(data); */
 	}
 
 	return ret;

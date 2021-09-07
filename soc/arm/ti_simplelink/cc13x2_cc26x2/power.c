@@ -100,6 +100,11 @@ __weak void pm_power_state_set(struct pm_state_info info)
 
 	case PM_STATE_STANDBY:
 		/* go to standby mode */
+		constraints = Power_getConstraintMask();
+		if ((constraints & (1 << PowerCC26XX_DISALLOW_STANDBY)) != 0) {
+			printk("Standby: disallowed!");
+			/* break; */
+		}
 		Power_sleep(PowerCC26XX_STANDBY);
 		break;
 	case PM_STATE_SUSPEND_TO_RAM:
