@@ -15,6 +15,7 @@ LOG_MODULE_REGISTER(ieee802154_cc13xx_cc26xx);
 #include <net/ieee802154_radio.h>
 #include <net/ieee802154.h>
 #include <net/net_pkt.h>
+#include <pm/pm.h>
 #include <random/rand32.h>
 #include <string.h>
 #include <sys/sys_io.h>
@@ -578,6 +579,9 @@ static int ieee802154_cc13xx_cc26xx_init(const struct device *dev)
 	drv_data->cmd_fs.synthConf.bTxMode = false;
 	drv_data->cmd_fs.frequency = 0;
 	drv_data->cmd_fs.fractFreq = 0;
+
+	/* deny standby while the radio is active */
+	pm_constraint_set(PM_STATE_STANDBY);
 
 	reason = RF_runCmd(drv_data->rf_handle, (RF_Op *)&drv_data->cmd_fs,
 		RF_PriorityNormal, NULL, 0);
