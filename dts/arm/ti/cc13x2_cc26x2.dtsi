@@ -9,10 +9,12 @@
 #include <dt-bindings/gpio/gpio.h>
 
 #define INT_WDT    30          // Watchdog Timer
+#define INT_AUX_ADC_IRQ  48    // AUX ADC interrupt event
 
 /* Note: Zephyr uses exception numbers, vs the IRQ #s used by the TI SDK */
 /* which are offset by 16: */
 #define EXP_WDT    (INT_WDT - 16)
+#define EXP_AUX_ADC (INT_AUX_ADC_IRQ - 16)
 
 / {
 	chosen {
@@ -130,6 +132,15 @@
 			interrupts = <4 0>;  /* interrupt #20 = 4 + 16 */
 			status = "disabled";
 			label = "RTC";
+		};
+
+		adc0: adc@400cb008 {
+			compatible = "ti,cc13xx-cc26xx-adc";
+			reg = <0x400CB008 0x1>;
+			interrupts = <EXP_AUX_ADC 0>;
+			status = "disabled";
+			label = "ADC_0";
+			#io-channel-cells = <1>;
 		};
 
 		wdt0: watchdog@40080000 {

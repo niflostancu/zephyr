@@ -1,0 +1,11 @@
+# Copyright (c) 2021 Pavlo Hamov <pasha.gamov@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+DT_COMPAT_TI_CC13XX_CC26XX_ADC := ti,cc13xx-cc26xx-adc
+
+config ADC_CC13XX_CC26XX
+	bool "CC32XX ADC driver"
+	depends on SOC_SERIES_CC13X2_CC26X2 && SOC_FAMILY_TISIMPLELINK
+	default $(dt_compat_enabled,$(DT_COMPAT_TI_CC13XX_CC26XX_ADC))
+	help
+	  This option enables the CC13XX/CC26XX ADC driver.
