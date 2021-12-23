@@ -8,10 +8,20 @@
 #include <zephyr/dt-bindings/i2c/i2c.h>
 #include <zephyr/dt-bindings/gpio/gpio.h>
 
+#define INT_WDT    30          // Watchdog Timer
+
+/* Note: Zephyr uses exception numbers, vs the IRQ #s used by the TI SDK */
+/* which are offset by 16: */
+#define EXP_WDT    (INT_WDT - 16)
+
 / {
 	chosen {
 		zephyr,entropy = &trng;
 		zephyr,flash-controller = &flash_controller;
+	};
+
+	aliases {
+		watchdog0 = &wdt0;
 	};
 
 	cpus {
@@ -148,6 +158,14 @@
 				compatible = "ti,cc13xx-cc26xx-ieee802154-subghz";
 				status = "disabled";
 			};
+		};
+
+		wdt0: watchdog@40080000 {
+			compatible = "ti,cc13xx-cc26xx-watchdog";
+			reg = <0x40080000 0x1000>;
+			interrupts = <EXP_WDT 0>;
+			label = "WDT_0";
+			status = "disabled";
 		};
 	};
 };
