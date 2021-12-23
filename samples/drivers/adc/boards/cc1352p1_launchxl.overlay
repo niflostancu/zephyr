@@ -1,0 +1,17 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Copyright (c) 2021 Florin Stancu <niflostancu@gmail.com>
+ */
+
+/ {
+	zephyr,user {
+		/* ADC_COMPB_IN_VDDS = 0x05 */
+		io-channels = <&adc0 0x5>;
+	};
+};
+
+&adc0 {
+	status = "okay";
+};
+
